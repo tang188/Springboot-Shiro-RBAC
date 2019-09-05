@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.rbac.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.rbac.entity.User">
+        <id property="id" column="id" ></id>
+        <result column="user_id" jdbcType="VARCHAR" javaType="String" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" javaType="String" property="userName" />
+        <result column="password" jdbcType="VARCHAR" javaType="String" property="password" />
+        <collection property="roleList" ofType="com.example.rbac.entity.SysRole">
+            <id property="id" column="rid"></id>
+            <result property="roleId" column="role_id" jdbcType="VARCHAR"></result>
+            <result property="roleName" column="role_name" jdbcType="VARCHAR"></result>
+            <result property="parentId" column="parent_id" jdbcType="VARCHAR"></result>
+            <collection property="permissions" ofType="com.example.rbac.entity.Permission">
+                <id property="id" column="pid"></id>
+                <result property="permissionId" column="permission_id" jdbcType="VARCHAR"></result>
+                <result property="permissionName" column="permission_name" jdbcType="VARCHAR"></result>
+                <result property="permissionType" column="permission_type" jdbcType="VARCHAR"></result>
+                <result property="permission" column="permission" jdbcType="VARCHAR"></result>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findUserByName" parameterType="String" resultMap="BaseResultMap">
+<!--    <select id="findUserByName" resultType="com.example.rbac.entity.User">-->
+<!--    <select id="findUserByName" parameterType="String" resultType="java.util.Map">-->
+        SELECT
+        u.id,
+        u.user_id,
+        u.user_name,
+        u.`PASSWORD`,
+        r.ID as rid,
+        r.ROLE_ID,
+        r.ROLE_NAME,
+        p.id as pid,
+        p.PERMISSION_ID,
+        p.PERMISSION_NAME,
+        p.PERMISSION_TYPE,
+        p.PERMISSION
+        FROM
+        USER u,
+        user_role_map urm,
+        role r,
+        role_permission_map rpm,
+        permission p
+        WHERE
+        u.USER_ID = urm.USER_ID
+        AND urm.ROLE_ID = r.ROLE_ID
+        AND r.ROLE_ID = rpm.ROLE_ID
+        AND rpm.PERMISSION_ID = p.PERMISSION_ID
+        AND u.user_name = #{user_name}
+    </select>
+
+</mapper>

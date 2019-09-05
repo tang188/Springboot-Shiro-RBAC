@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello</title>
+</head>
+<body>
+    Welcome!
+    <form th:action="@{/user/userList}" method="get">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i>
+                userList页面
+            </span>
+
+        </div>
+        <input type="submit" class="btn btn-lg btn-block btn-info" value="Go">
+    </form>
+    <form th:action="@{/user/userAdd}" method="get">
+        <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i>
+                userAdd页面
+            </span>
+
+        </div>
+        <input type="submit" class="btn btn-lg btn-block btn-info" value="Add">
+    </form>
+</body>
+</html>
